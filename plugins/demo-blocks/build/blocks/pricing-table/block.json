@@ -1,0 +1,68 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "demo-blocks/pricing-table",
+  "version": "1.0.0",
+  "title": "Pricing Table",
+  "category": "demo-blocks",
+  "icon": "money-alt",
+  "description": "Pricing plans with monthly and yearly prices, a feature list and a call-to-action button.",
+  "keywords": [
+    "pricing",
+    "plans",
+    "price"
+  ],
+  "textdomain": "demo-blocks",
+  "attributes": {
+    "showToggle": {
+      "type": "boolean",
+      "default": true
+    },
+    "featured": {
+      "type": "number",
+      "default": 1
+    },
+    "plans": {
+      "type": "array",
+      "default": [
+        {
+          "name": "Starter",
+          "monthly": "$49",
+          "yearly": "$490",
+          "features": "One-page site\nMobile-ready layout\nEmail support",
+          "ctaText": "Choose plan",
+          "ctaUrl": "#contact"
+        },
+        {
+          "name": "Business",
+          "monthly": "$99",
+          "yearly": "$990",
+          "features": "Up to 10 pages\nCustom blocks\nSEO setup\nPriority support",
+          "ctaText": "Choose plan",
+          "ctaUrl": "#contact"
+        },
+        {
+          "name": "Enterprise",
+          "monthly": "$199",
+          "yearly": "$1,990",
+          "features": "Unlimited pages\nIntegrations & APIs\nDedicated developer",
+          "ctaText": "Choose plan",
+          "ctaUrl": "#contact"
+        }
+      ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

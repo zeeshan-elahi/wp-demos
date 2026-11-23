@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "demo-blocks/stats-bar",
+  "version": "1.0.0",
+  "title": "Stats Bar",
+  "category": "demo-blocks",
+  "icon": "chart-bar",
+  "description": "A highlighted bar of headline numbers with labels.",
+  "keywords": [
+    "stats",
+    "numbers",
+    "counter"
+  ],
+  "textdomain": "demo-blocks",
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "value": "280+",
+          "label": "Projects complete"
+        },
+        {
+          "value": "200+",
+          "label": "Happy clients"
+        },
+        {
+          "value": "15+",
+          "label": "Team members"
+        }
+      ]
+    }
+  },
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "example": {},
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

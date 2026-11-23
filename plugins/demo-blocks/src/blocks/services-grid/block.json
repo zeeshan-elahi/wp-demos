@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "demo-blocks/services-grid",
+	"version": "1.0.0",
+	"title": "Services Grid",
+	"category": "demo-blocks",
+	"icon": "grid-view",
+	"description": "Service cards with an icon, title, text and link. One card can be highlighted.",
+	"keywords": [ "services", "cards", "features" ],
+	"textdomain": "demo-blocks",
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 4
+		},
+		"featured": {
+			"type": "number",
+			"default": 1
+		},
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"title": "UI/UX Design",
+					"text": "Wireframes, prototypes and design systems your developers can actually build.",
+					"linkText": "Learn more →",
+					"linkUrl": "#contact"
+				},
+				{
+					"title": "Web Development",
+					"text": "Custom WordPress themes and plugins. No page builders, no bloat.",
+					"linkText": "Learn more →",
+					"linkUrl": "#contact"
+				},
+				{
+					"title": "Branding",
+					"text": "Logos, type and colour that hold up from a favicon to a billboard.",
+					"linkText": "Learn more →",
+					"linkUrl": "#contact"
+				},
+				{
+					"title": "Growth & SEO",
+					"text": "Fast pages, clean markup and content that ranks and converts.",
+					"linkText": "Learn more →",
+					"linkUrl": "#contact"
+				}
+			]
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"spacing": {
+			"margin": [ "top", "bottom" ]
+		}
+	},
+	"example": {},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
