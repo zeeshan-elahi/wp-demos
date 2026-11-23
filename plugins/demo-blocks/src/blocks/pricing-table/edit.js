@@ -1,4 +1,5 @@
 import { __, sprintf } from '@wordpress/i18n';
+import { useState } from '@wordpress/element';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -25,19 +26,32 @@ const newPlan = () => ( {
 	name: __( 'New plan', 'demo-blocks' ),
 	monthly: '$0',
 	yearly: '$0',
-	features: '',
+	features: __( 'First feature', 'demo-blocks' ),
 	ctaText: __( 'Choose plan', 'demo-blocks' ),
 	ctaUrl: '#contact',
 } );
 
-const featureList = ( features ) =>
+// Features are stored as one string, one feature per line, so the sidebar textarea and the
+// inline fields edit the same value.
+const splitFeatures = ( features ) =>
 	( features || '' )
 		.split( '\n' )
 		.map( ( line ) => line.trim() )
 		.filter( Boolean );
 
+const replaceFeature = ( features, index, value ) => {
+	const lines = splitFeatures( features );
+	lines[ index ] = plainText( value ).replace( /\n/g, ' ' );
+
+	return lines.join( '\n' );
+};
+
 export default function Edit( { attributes, setAttributes } ) {
 	const { showToggle, featured, plans } = attributes;
+
+	// Which price the canvas shows and edits. Editor-only state; the front end starts on monthly.
+	const [ period, setPeriod ] = useState( 'monthly' );
+	const isYearly = period === 'yearly' ? true : false;
 
 	const blockProps = useBlockProps( { className: 'pricing-block' } );
 
@@ -130,6 +144,10 @@ export default function Edit( { attributes, setAttributes } ) {
 								'Features (one per line)',
 								'demo-blocks'
 							) }
+							help={ __(
+								'Add or remove lines here; edit existing ones on the canvas too.',
+								'demo-blocks'
+							) }
 							value={ plan.features }
 							onChange={ ( value ) =>
 								setPlan( index, 'features', value )
@@ -150,18 +168,25 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			<div { ...blockProps }>
 				{ showToggle && (
-					<div className="pricing-toggle" aria-hidden="true">
+					<div
+						className="pricing-toggle"
+						role="group"
+						aria-label={ __(
+							'Price shown while editing',
+							'demo-blocks'
+						) }
+					>
 						<button
 							type="button"
-							aria-pressed="true"
-							tabIndex={ -1 }
+							aria-pressed={ isYearly ? 'false' : 'true' }
+							onClick={ () => setPeriod( 'monthly' ) }
 						>
 							{ __( 'Monthly', 'demo-blocks' ) }
 						</button>
 						<button
 							type="button"
-							aria-pressed="false"
-							tabIndex={ -1 }
+							aria-pressed={ isYearly ? 'true' : 'false' }
+							onClick={ () => setPeriod( 'yearly' ) }
 						>
 							{ __( 'Yearly', 'demo-blocks' ) }
 						</button>
@@ -192,17 +217,42 @@ export default function Edit( { attributes, setAttributes } ) {
 									}
 								/>
 								<p className="plan__price">
-									<span className="plan__amount">
-										{ plan.monthly }
-									</span>
-									<small>/mo</small>
+									<RichText
+										tagName="span"
+										className="plan__amount"
+										value={ plan[ period ] }
+										allowedFormats={ [] }
+										placeholder="$0"
+										onChange={ ( value ) =>
+											setPlan(
+												index,
+												period,
+												plainText( value )
+											)
+										}
+									/>
+									<small>{ isYearly ? '/yr' : '/mo' }</small>
 								</p>
 								<ul>
-									{ featureList( plan.features ).map(
+									{ splitFeatures( plan.features ).map(
 										( feature, featureIndex ) => (
-											<li key={ featureIndex }>
-												{ feature }
-											</li>
+											<RichText
+												key={ featureIndex }
+												tagName="li"
+												value={ feature }
+												allowedFormats={ [] }
+												onChange={ ( value ) =>
+													setPlan(
+														index,
+														'features',
+														replaceFeature(
+															plan.features,
+															featureIndex,
+															value
+														)
+													)
+												}
+											/>
 										)
 									) }
 								</ul>

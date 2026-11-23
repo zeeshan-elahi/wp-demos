@@ -13,6 +13,7 @@ module.exports = [
 				'@wordpress/blocks',
 				'@wordpress/block-editor',
 				'@wordpress/components',
+				'@wordpress/element',
 				'@wordpress/i18n',
 				'@wordpress/rich-text',
 			],
